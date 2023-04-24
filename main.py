@@ -23,7 +23,6 @@ import random
 cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 player_hand = []
 dealer_hand = []
-hand_size = 2
 blackjack = 21
 player_score = 0
 dealer_score = 0
@@ -34,25 +33,34 @@ def deal_card(deck):
     return (dealt_card)
 
 
-for card in range(hand_size):
-    player_hand.append(deal_card(cards))
-    dealer_hand.append(deal_card(cards))
-
-print(f"Your hand: {player_hand}")
-print(f"Dealer's hand: {dealer_hand}")
-
-
-def scoring(hand):
-    score = 0
+def scoring(hand, score):
+    hand_size = len(hand)
     for card in range(hand_size):
         score += int(hand[card])
     return (score)
 
 
-player_score = scoring(player_hand)
-print(f"player score is {player_score}")
-# print(f"Dealer score is {dealer_score}")rint()
-# scoring(dealer_hand)
+def hit_stay(prompt):
+    if prompt == "y":
+        player_hand.append(deal_card(cards))
+
+
+for card in range(2):
+    player_hand.append(deal_card(cards))
+    dealer_hand.append(deal_card(cards))
+
+print(f"Your hand: {player_hand}")
+print(f"Dealer's hand: {dealer_hand[0]}")
+
+hit_or_stay = input("Will you take another card? (y/n)").lower()
+hit_stay(hit_or_stay)
+print(f"Your hand: {player_hand}")
+
+
+player_score = scoring(player_hand, player_score)
+print(f"Player's score is {player_score}")
+dealer_score = scoring(dealer_hand, dealer_score)
+print(f"Dealer's score is {dealer_score}")
 
 # Hint 1: Go to this website and try out the Blackjack game:
 #   https://games.washingtonpost.com/games/blackjack/
