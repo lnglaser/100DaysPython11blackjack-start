@@ -24,13 +24,13 @@ cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 player_hand = []
 dealer_hand = []
 hand_size = 2
-
-print(cards)
+blackjack = 21
+player_score = 0
+dealer_score = 0
 
 
 def deal_card(deck):
-    dealt_card = deck[random.randrange(len(deck)-1)]
-    print(dealt_card)
+    dealt_card = deck[random.randrange(len(deck))]
     return (dealt_card)
 
 
@@ -40,6 +40,20 @@ for card in range(hand_size):
 
 print(f"Your hand: {player_hand}")
 print(f"Dealer's hand: {dealer_hand}")
+
+
+def scoring(hand):
+    score = 0
+    for card in range(hand_size):
+        score += int(hand[card])
+    return (score)
+
+
+player_score = scoring(player_hand)
+print(f"player score is {player_score}")
+# print(f"Dealer score is {dealer_score}")rint()
+# scoring(dealer_hand)
+
 # Hint 1: Go to this website and try out the Blackjack game:
 #   https://games.washingtonpost.com/games/blackjack/
 # Then try out the completed Blackjack project here:
