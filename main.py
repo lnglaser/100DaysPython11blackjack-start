@@ -40,7 +40,7 @@ def scoring(hand, score):
     return (score)
 
 
-def hit_stay(prompt):
+def card_hit(prompt):
     if prompt == "y":
         player_hand.append(deal_card(cards))
 
@@ -52,9 +52,15 @@ for card in range(2):
 print(f"Your hand: {player_hand}")
 print(f"Dealer's hand: {dealer_hand[0]}")
 
-hit_or_stay = input("Will you take another card? (y/n)").lower()
-hit_stay(hit_or_stay)
-print(f"Your hand: {player_hand}")
+keep_going = True
+while keep_going:
+    dealer_hand.append(deal_card(cards))
+    hit_or_stay = input("Will you take another card? (y/n)").lower()
+    if hit_or_stay == "y":
+        card_hit(hit_or_stay)
+        scoring(player_hand, player_score)
+    else:
+        keep_going = False
 
 
 player_score = scoring(player_hand, player_score)
