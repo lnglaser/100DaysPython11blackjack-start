@@ -34,9 +34,7 @@ def deal_card(deck):
 
 
 def scoring(hand, score):
-    hand_size = len(hand)
-    for card in range(hand_size):
-        score += int(hand[card])
+    score = sum(hand)
     return (score)
 
 
@@ -54,11 +52,14 @@ print(f"Dealer's hand: {dealer_hand[0]}")
 
 keep_going = True
 while keep_going:
-    dealer_hand.append(deal_card(cards))
+    # dealer_hand.append(deal_card(cards))
     hit_or_stay = input("Will you take another card? (y/n)").lower()
     if hit_or_stay == "y":
         card_hit(hit_or_stay)
-        scoring(player_hand, player_score)
+        print(f"Your hand: {player_hand}")
+        player_score = scoring(player_hand, player_score)
+        print(f"Your score is {player_score}")
+        dealer_score = scoring(dealer_hand, dealer_score)
     else:
         keep_going = False
 
