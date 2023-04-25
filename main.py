@@ -60,6 +60,7 @@ while keep_going:
         player_score = scoring(player_hand, player_score)
         print(f"Your score is {player_score}")
         dealer_score = scoring(dealer_hand, dealer_score)
+
     else:
         keep_going = False
 
