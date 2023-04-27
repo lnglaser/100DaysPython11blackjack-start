@@ -23,52 +23,88 @@ import random
 cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 player_hand = []
 dealer_hand = []
-blackjack = 21
+# blackjack = 21
 player_score = 0
 dealer_score = 0
+
+# Selects random card from "cards" list and returns it
 
 
 def deal_card(deck):
     dealt_card = deck[random.randrange(len(deck))]
     return (dealt_card)
 
+# Adds up value of cards in hand and returns the total (replaces 11 with 1 if score is already over 21)
+
 
 def scoring(hand, score):
     score = sum(hand)
+    if score > 21:
+        for card in hand:
+            if card == 11:
+                score -= 10
+            # card = ace_check(card)
+
     return (score)
 
 
-def card_hit(prompt):
-    if prompt == "y":
-        player_hand.append(deal_card(cards))
+# def ace_check(card):
+#     if card == 11:
+#         card = 1
+#         print(f"Ace is now worth {card}")
+#     return (card)
+# Adds card to hand
 
 
+def card_hit(hand):
+    hand.append(deal_card(cards))
+
+# Checks scores against value of 21 to see if score is over, under or exact
+
+
+def check_blackjack(score):
+    blackjack = None
+    if score < 21:
+        blackjack = "under"
+    elif score == 21:
+        blackjack = "yes"
+    else:
+        blackjack = "over"
+    return (blackjack)
+
+
+# Testing hands:
+player_hand = [11, 11]
+
+# Intial deal - 2 cards each to player and dealer
 for card in range(2):
-    player_hand.append(deal_card(cards))
+    # player_hand.append(deal_card(cards))
     dealer_hand.append(deal_card(cards))
 
-print(f"Your hand: {player_hand}")
-print(f"Dealer's hand: {dealer_hand[0]}")
+player_score = scoring(player_hand, player_score)
+dealer_score = scoring(dealer_hand, dealer_score)
 
+print(f"Your hand: {player_hand}")
+print(f"Dealer's first card: {dealer_hand[0]}")
+
+# Loop to check if player wants to hit or stay, and for dealer to hit until 21 or bust
 keep_going = True
 while keep_going:
     # dealer_hand.append(deal_card(cards))
     hit_or_stay = input("Will you take another card? (y/n)").lower()
     if hit_or_stay == "y":
-        card_hit(hit_or_stay)
+        card_hit(player_hand)
         print(f"Your hand: {player_hand}")
         player_score = scoring(player_hand, player_score)
         print(f"Your score is {player_score}")
         dealer_score = scoring(dealer_hand, dealer_score)
+        print(f"Dealer's first card: {dealer_hand[0]}")
 
     else:
+        print(
+            f"Your hand: {player_hand} - your final score: {scoring(player_hand, player_score)}")
         keep_going = False
 
-
-player_score = scoring(player_hand, player_score)
-print(f"Player's score is {player_score}")
-dealer_score = scoring(dealer_hand, dealer_score)
-print(f"Dealer's score is {dealer_score}")
 
 # Hint 1: Go to this website and try out the Blackjack game:
 #   https://games.washingtonpost.com/games/blackjack/
