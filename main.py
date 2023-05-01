@@ -83,7 +83,7 @@ print(f"Dealer's first card: {dealer_hand[0]}")
 keep_going = True
 while keep_going:
     hit_or_stay = input("Will you take another card? (y/n)").lower()
-    if hit_or_stay == "y":
+    if hit_or_stay == "y" and player_score < 21:
         card_hit(player_hand)
         print(f"Your hand: {player_hand}")
         player_score = scoring(player_hand, player_score)
@@ -95,6 +95,9 @@ while keep_going:
         if dealer_blackjack == "under":
             dealer_hand.append(deal_card(cards))
 
+    elif player_score > 21:
+        print(f"Your hand: {player_hand} - your final score: {scoring(player_hand, player_score)}\nDealer's hand: {dealer_hand} - Dealer's final score: {scoring(dealer_hand, dealer_score)}\nYou bust.")
+        keep_going = False
     else:
         print(
             f"Your hand: {player_hand} - your final score: {scoring(player_hand, player_score)}\nDealer's hand: {dealer_hand} - Dealer's final score: {scoring(dealer_hand, dealer_score)}")
