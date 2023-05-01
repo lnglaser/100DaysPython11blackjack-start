@@ -82,25 +82,30 @@ print(f"Dealer's first card: {dealer_hand[0]}")
 # Loop to check if player wants to hit or stay, and for dealer to hit until 21 or bust
 keep_going = True
 while keep_going:
-    hit_or_stay = input("Will you take another card? (y/n)").lower()
-    if hit_or_stay == "y" and player_score < 21:
-        card_hit(player_hand)
-        print(f"Your hand: {player_hand}")
-        player_score = scoring(player_hand, player_score)
-        player_blackjack = check_blackjack(player_score)
-        print(f"Your score is {player_score}")
-        dealer_score = scoring(dealer_hand, dealer_score)
-        print(f"Dealer's first card: {dealer_hand[0]}")
-        dealer_blackjack = check_blackjack(dealer_score)
-        if dealer_blackjack == "under":
-            dealer_hand.append(deal_card(cards))
+    if player_score < 21:
+        hit_or_stay = input("Will you take another card? (y/n)").lower()
+        if hit_or_stay == "y":
+            card_hit(player_hand)
+            print(f"Your hand: {player_hand}")
+            player_score = scoring(player_hand, player_score)
+            player_blackjack = check_blackjack(player_score)
+            print(f"Your score is {player_score}")
+            dealer_score = scoring(dealer_hand, dealer_score)
+            print(f"Dealer's first card: {dealer_hand[0]}")
+            dealer_blackjack = check_blackjack(dealer_score)
+            if dealer_blackjack == "under":
+                dealer_hand.append(deal_card(cards))
+        elif hit_or_stay == "n":
+            print(f"Your hand: {player_hand}")
+            player_score = scoring(player_hand, player_score)
+            player_blackjack = check_blackjack(player_score)
 
     elif player_score > 21:
         print(f"Your hand: {player_hand} - your final score: {scoring(player_hand, player_score)}\nDealer's hand: {dealer_hand} - Dealer's final score: {scoring(dealer_hand, dealer_score)}\nYou bust.")
         keep_going = False
     else:
         print(
-            f"Your hand: {player_hand} - your final score: {scoring(player_hand, player_score)}\nDealer's hand: {dealer_hand} - Dealer's final score: {scoring(dealer_hand, dealer_score)}")
+            f"Your hand: {player_hand} - your final score: {scoring(player_hand, player_score)}\nDealer's hand: {dealer_hand} - Dealer's final score: {scoring(dealer_hand, dealer_score)}\nYou have blackjack.")
 
         keep_going = False
 
