@@ -76,40 +76,23 @@ for card in range(2):
 player_score = scoring(player_hand, player_score)
 dealer_score = scoring(dealer_hand, dealer_score)
 
-print(f"Your hand: {player_hand}")
+print(f"Your hand: {player_hand} - Your current score: {player_score}")
 print(f"Dealer's first card: {dealer_hand[0]}")
 
 # Loop to check if player wants to hit or stay, and for dealer to hit until 21 or bust
 keep_going = True
-while keep_going:
-    if player_score < 21:
-        hit_or_stay = input("Will you take another card? (y/n)").lower()
+while player_score < 21:
+    while keep_going == True:
+        hit_or_stay = input("Would you like to hit? (y/n): ").lower()
         if hit_or_stay == "y":
-            card_hit(player_hand)
-            print(f"Your hand: {player_hand}")
-            player_score = scoring(player_hand, player_score)
-            player_blackjack = check_blackjack(player_score)
-            print(f"Your score is {player_score}")
-            dealer_score = scoring(dealer_hand, dealer_score)
-            print(f"Dealer's first card: {dealer_hand[0]}")
-            dealer_blackjack = check_blackjack(dealer_score)
-            if dealer_blackjack == "under":
+            player_hand.append(deal_card(cards))
+            if dealer_score < 21:
                 dealer_hand.append(deal_card(cards))
-        elif hit_or_stay == "n":
-            print(f"Your hand: {player_hand}")
-            player_score = scoring(player_hand, player_score)
-            player_blackjack = check_blackjack(player_score)
-            if dealer_blackjack == "under":
-                dealer_hand.append(deal_card(cards))
+                dealer_score = scoring(dealer_hand, dealer_score)
+                dealer_blackjack = check_blackjack(dealer_score)
+                print(f"Dealer's hand: {dealer_hand} - {dealer_blackjack}")
 
-    elif player_score > 21:
-        print(f"Your hand: {player_hand} - your final score: {scoring(player_hand, player_score)}\nDealer's hand: {dealer_hand} - Dealer's final score: {scoring(dealer_hand, dealer_score)}\nYou bust.")
-        keep_going = False
-    else:
-        print(
-            f"Your hand: {player_hand} - your final score: {scoring(player_hand, player_score)}\nDealer's hand: {dealer_hand} - Dealer's final score: {scoring(dealer_hand, dealer_score)}\nYou have blackjack.")
-
-        keep_going = False
+        # While loop for dealer to take cards if score under 21
 
 
 # Hint 1: Go to this website and try out the Blackjack game:
