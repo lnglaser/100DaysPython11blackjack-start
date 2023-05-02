@@ -99,6 +99,8 @@ while keep_going:
             print(f"Your hand: {player_hand}")
             player_score = scoring(player_hand, player_score)
             player_blackjack = check_blackjack(player_score)
+            if dealer_blackjack == "under":
+                dealer_hand.append(deal_card(cards))
 
     elif player_score > 21:
         print(f"Your hand: {player_hand} - your final score: {scoring(player_hand, player_score)}\nDealer's hand: {dealer_hand} - Dealer's final score: {scoring(dealer_hand, dealer_score)}\nYou bust.")
