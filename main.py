@@ -57,21 +57,23 @@ def count_score(score, hand):
         if card == 11:
             num_aces += 1
         score += card
-    if score > 21:
+    if score > 21 and num_aces > 0:
         score -= ((num_aces-1)*10)
     print(f"Number of aces: {num_aces}")
     print(f"Hand: {hand} - Score: {score}")
     return (score)
 
 
-test_hand = [11, 11]
+test_hand = [10, 10, 5]
 test_score = 0
 
 print(f"Testing - {count_score(test_score, test_hand)}")
 
+# Initial deal
 for card in range(2):
     player_hand.append(deal_cards(cards))
     dealer_hand.append(deal_cards(cards))
+
 
 count_score(player_score, player_hand)
 count_score(dealer_score, dealer_hand)
