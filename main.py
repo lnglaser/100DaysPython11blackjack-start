@@ -81,12 +81,17 @@ print(f"Dealer's first card: {dealer_hand[0]}")
 
 # Loop to check if player wants to hit or stay, and for dealer to hit until 21 or bust
 keep_going = True
+# Move "under 21" condition to if statement inside while loop
 while player_score < 21:
     while keep_going == True:
         hit_or_stay = input("Would you like to hit? (y/n): ").lower()
         if hit_or_stay == "y":
             player_hand.append(deal_card(cards))
-            if dealer_score < 21:
+            player_score = scoring(player_hand, player_score)
+            print(
+                f"Your hand - {player_hand} - Your current score: {player_score}")
+        elif hit_or_stay == "n":
+            if dealer_score <= 16:
                 dealer_hand.append(deal_card(cards))
                 dealer_score = scoring(dealer_hand, dealer_score)
                 dealer_blackjack = check_blackjack(dealer_score)
