@@ -31,21 +31,37 @@ dealer_score = 0
 player_blackjack = None
 dealer_blackjack = None
 
+# Chooses card at random from "cards" list and returns it
+
 
 def deal_cards(deck):
     dealt_card = deck[random.randrange(len(deck))]
     return (dealt_card)
+
+# Takes in a given score and checks if it's equal to 21; returns binary value
+
+
+def check_blackjack(score, blackjack):
+    if score == 21:
+        blackjack = True
+    else:
+        blackjack = False
+    return (blackjack)
+
+
+def count_score(score, hand):
+    for card in hand:
+        score += card
+    print(f"Hand: {hand} - Score: {score}")
+    return (score)
 
 
 for card in range(2):
     player_hand.append(deal_cards(cards))
     dealer_hand.append(deal_cards(cards))
 
-print(
-    f"Player hand: {player_hand}\nDealer hand: {dealer_hand}"
-)
-
-
+count_score(player_score, player_hand)
+count_score(dealer_score, dealer_hand)
 # Hint 1: Go to this website and try out the Blackjack game:
 #   https://games.washingtonpost.com/games/blackjack/
 # Then try out the completed Blackjack project here:
