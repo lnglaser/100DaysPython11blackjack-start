@@ -38,6 +38,10 @@ def deal_cards(deck):
     dealt_card = deck[random.randrange(len(deck))]
     return (dealt_card)
 
+
+def card_hit(hand):
+    hand.append(deal_cards(cards))
+
 # Takes in a given score and checks if it's equal to 21; returns binary value
 
 
@@ -64,10 +68,10 @@ def count_score(score, hand):
     return (score)
 
 
-test_hand = [10, 10, 5]
-test_score = 0
+# test_hand = [10, 10, 5]
+# test_score = 0
 
-print(f"Testing - {count_score(test_score, test_hand)}")
+# print(f"Testing - {count_score(test_score, test_hand)}")
 
 # Initial deal
 for card in range(2):
@@ -80,10 +84,21 @@ while keep_going == True:
     count_score(player_score, player_hand)
     count_score(dealer_score, dealer_hand)
 
+    print(
+        f"Your hand: {player_hand} - Your score: {player_score}\nDealer's first card: {dealer_hand[0]}")
+    hit_or_stay = input("Would you like to take another card? (y/n): ").lower()
+    if hit_or_stay == "y":
+        card_hit(player_hand)
+    elif hit_or_stay == "n":
+        while dealer_score < 16:
+            card_hit(dealer_hand)
+
     player_blackjack = check_blackjack(player_score, player_blackjack)
     dealer_blackjack = check_blackjack(dealer_score, dealer_blackjack)
 
     if player_blackjack == True or dealer_blackjack == True:
+        keep_going = False
+    elif player_score > 21 or dealer_score > 21:
         keep_going = False
 # Hint 1: Go to this website and try out the Blackjack game:
 #   https://games.washingtonpost.com/games/blackjack/
