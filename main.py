@@ -21,83 +21,24 @@
 import random
 
 cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+
 player_hand = []
 dealer_hand = []
-# blackjack = 21
+
 player_score = 0
 dealer_score = 0
+
 player_blackjack = None
 dealer_blackjack = None
-# Selects random card from "cards" list and returns it
 
 
-def deal_card(deck):
+def deal_cards(deck):
     dealt_card = deck[random.randrange(len(deck))]
+    print(dealt_card)
     return (dealt_card)
 
-# Adds up value of cards in hand and returns the total (replaces 11 with 1 if score is already over 21)
 
-
-def scoring(hand, score):
-    score = sum(hand)
-    if score > 21:
-        for card in hand:
-            if card == 11:
-                score -= 10
-
-    return (score)
-
-
-def card_hit(hand):
-    hand.append(deal_card(cards))
-
-# Checks scores against value of 21 to see if score is over, under or exact
-
-
-def check_blackjack(score):
-    blackjack = None
-    if score < 21:
-        blackjack = "under"
-    elif score == 21:
-        blackjack = "yes"
-    else:
-        blackjack = "over"
-    return (blackjack)
-
-
-# Testing hands:
-# player_hand = [11, 11]
-
-# Intial deal - 2 cards each to player and dealer
-for card in range(2):
-    player_hand.append(deal_card(cards))
-    dealer_hand.append(deal_card(cards))
-
-player_score = scoring(player_hand, player_score)
-dealer_score = scoring(dealer_hand, dealer_score)
-
-print(f"Your hand: {player_hand} - Your current score: {player_score}")
-print(f"Dealer's first card: {dealer_hand[0]}")
-
-# Loop to check if player wants to hit or stay, and for dealer to hit until 21 or bust
-keep_going = True
-# Move "under 21" condition to if statement inside while loop
-while player_score < 21:
-    while keep_going == True:
-        hit_or_stay = input("Would you like to hit? (y/n): ").lower()
-        if hit_or_stay == "y":
-            player_hand.append(deal_card(cards))
-            player_score = scoring(player_hand, player_score)
-            print(
-                f"Your hand - {player_hand} - Your current score: {player_score}")
-        elif hit_or_stay == "n":
-            if dealer_score <= 16:
-                dealer_hand.append(deal_card(cards))
-                dealer_score = scoring(dealer_hand, dealer_score)
-                dealer_blackjack = check_blackjack(dealer_score)
-                print(f"Dealer's hand: {dealer_hand} - {dealer_blackjack}")
-
-        # While loop for dealer to take cards if score under 21
+deal_cards(cards)
 
 
 # Hint 1: Go to this website and try out the Blackjack game:
