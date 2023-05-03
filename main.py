@@ -48,13 +48,26 @@ def check_blackjack(score, blackjack):
         blackjack = False
     return (blackjack)
 
+# Adds value of cards in hand to score (ver1)
+
 
 def count_score(score, hand):
+    num_aces = 0
     for card in hand:
+        if card == 11:
+            num_aces += 1
         score += card
+    if score > 21:
+        score -= ((num_aces-1)*10)
+    print(f"Number of aces: {num_aces}")
     print(f"Hand: {hand} - Score: {score}")
     return (score)
 
+
+test_hand = [11, 11]
+test_score = 0
+
+print(f"Testing - {count_score(test_score, test_hand)}")
 
 for card in range(2):
     player_hand.append(deal_cards(cards))
@@ -62,6 +75,9 @@ for card in range(2):
 
 count_score(player_score, player_hand)
 count_score(dealer_score, dealer_hand)
+
+player_blackjack = check_blackjack(player_score, player_blackjack)
+dealer_blackjack = check_blackjack(dealer_score, dealer_blackjack)
 # Hint 1: Go to this website and try out the Blackjack game:
 #   https://games.washingtonpost.com/games/blackjack/
 # Then try out the completed Blackjack project here:
