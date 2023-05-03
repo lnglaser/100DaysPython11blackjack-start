@@ -34,11 +34,16 @@ dealer_blackjack = None
 
 def deal_cards(deck):
     dealt_card = deck[random.randrange(len(deck))]
-    print(dealt_card)
     return (dealt_card)
 
 
-deal_cards(cards)
+for card in range(2):
+    player_hand.append(deal_cards(cards))
+    dealer_hand.append(deal_cards(cards))
+
+print(
+    f"Player hand: {player_hand}\nDealer hand: {dealer_hand}"
+)
 
 
 # Hint 1: Go to this website and try out the Blackjack game:
