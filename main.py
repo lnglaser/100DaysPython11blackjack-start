@@ -74,12 +74,17 @@ for card in range(2):
     player_hand.append(deal_cards(cards))
     dealer_hand.append(deal_cards(cards))
 
+# gameplay loop
+keep_going = True
+while keep_going == True:
+    count_score(player_score, player_hand)
+    count_score(dealer_score, dealer_hand)
 
-count_score(player_score, player_hand)
-count_score(dealer_score, dealer_hand)
+    player_blackjack = check_blackjack(player_score, player_blackjack)
+    dealer_blackjack = check_blackjack(dealer_score, dealer_blackjack)
 
-player_blackjack = check_blackjack(player_score, player_blackjack)
-dealer_blackjack = check_blackjack(dealer_score, dealer_blackjack)
+    if player_blackjack == True or dealer_blackjack == True:
+        keep_going = False
 # Hint 1: Go to this website and try out the Blackjack game:
 #   https://games.washingtonpost.com/games/blackjack/
 # Then try out the completed Blackjack project here:
