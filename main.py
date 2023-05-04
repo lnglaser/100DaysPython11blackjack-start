@@ -64,22 +64,22 @@ def count_score(score, hand):
         score += card
     if score > 21 and num_aces > 1:
         score -= ((num_aces-1)*10)
-    print(f"Number of aces: {num_aces}")
-    print(f"Hand: {hand} - Score: {score}")
+    print(f"count_score - Number of aces: {num_aces}")
+    print(f"count_score - Hand: {hand} - Score: {score}")
     return (score)
 
 
 # test_hand = [10, 10, 5]
 # test_score = 0
-player_hand = [2, 2]
-dealer_hand = [10, 4]
+# player_hand = [11, 10]
+# dealer_hand = [10, 4]
 
 # print(f"Testing - {count_score(test_score, test_hand)}")
 
 # Initial deal
-# for card in range(2):
-#     player_hand.append(deal_cards(cards))
-#     dealer_hand.append(deal_cards(cards))
+for card in range(2):
+    player_hand.append(deal_cards(cards))
+    dealer_hand.append(deal_cards(cards))
 
 
 # gameplay loop
@@ -92,7 +92,7 @@ while keep_going == True:
     dealer_blackjack = check_blackjack(dealer_score, dealer_blackjack)
 
     print(
-        f"Your hand: {player_hand} - Your score: {player_score}\nDealer's first card: {dealer_hand[0]}")
+        f"Main loop - Your hand: {player_hand} - Your score: {player_score}\nDealer's first card: {dealer_hand[0]}")
 
     if player_blackjack == True or dealer_blackjack == True:
         print("Game over - blackjack")
@@ -108,6 +108,10 @@ while keep_going == True:
         elif hit_or_stay == "n":
             while dealer_score < 16:
                 card_hit(dealer_hand)
+                dealer_score = count_score(dealer_score, dealer_hand)
+            print("Dealer has score over 16")
+            keep_going = False
+
 
 # Hint 1: Go to this website and try out the Blackjack game:
 #   https://games.washingtonpost.com/games/blackjack/
