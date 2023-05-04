@@ -22,14 +22,6 @@ import random
 
 cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 
-player_hand = []
-dealer_hand = []
-
-player_score = 0
-dealer_score = 0
-
-player_blackjack = None
-dealer_blackjack = None
 
 # Chooses card at random from "cards" list and returns it
 
@@ -75,70 +67,84 @@ def count_score(score, hand):
 # dealer_hand = [10, 10]
 
 # print(f"Testing - {count_score(test_score, test_hand)}")
+start_new_game = True
+while start_new_game == True:
 
-# Initial deal
-for card in range(2):
-    player_hand.append(deal_cards(cards))
-    dealer_hand.append(deal_cards(cards))
+    player_hand = []
+    dealer_hand = []
 
+    player_score = 0
+    dealer_score = 0
 
-# gameplay loop
-keep_going = True
-while keep_going == True:
-    player_score = count_score(player_score, player_hand)
-    dealer_score = count_score(dealer_score, dealer_hand)
+    player_blackjack = None
+    dealer_blackjack = None
 
-    player_blackjack = check_blackjack(player_score, player_blackjack)
-    dealer_blackjack = check_blackjack(dealer_score, dealer_blackjack)
+    # Initial deal
+    for card in range(2):
+        player_hand.append(deal_cards(cards))
+        dealer_hand.append(deal_cards(cards))
 
-    print(
-        f"Main loop - Your hand: {player_hand} - Your score: {player_score}\nDealer's first card: {dealer_hand[0]}")
+    # gameplay loop
+    keep_going = True
+    while keep_going == True:
+        player_score = count_score(player_score, player_hand)
+        dealer_score = count_score(dealer_score, dealer_hand)
 
-    if player_blackjack == True or dealer_blackjack == True:
-        print("Game over - blackjack")
-        keep_going = False
-    elif player_score > 21 or dealer_score > 21:
-        print("Game over - bust")
-        keep_going = False
-    elif player_score < 21 or dealer_score < 16:
-        hit_or_stay = input(
-            "Would you like to take another card? (y/n): ").lower()
-        if hit_or_stay == "y":
-            card_hit(player_hand)
-        elif hit_or_stay == "n":
-            while dealer_score < 16:
-                card_hit(dealer_hand)
-                dealer_score = count_score(dealer_score, dealer_hand)
-                dealer_blackjack = check_blackjack(
-                    dealer_score, dealer_blackjack)
-            print("Dealer has score over 16")
+        player_blackjack = check_blackjack(player_score, player_blackjack)
+        dealer_blackjack = check_blackjack(dealer_score, dealer_blackjack)
+
+        print(
+            f"Main loop - Your hand: {player_hand} - Your score: {player_score}\nDealer's first card: {dealer_hand[0]}")
+
+        if player_blackjack == True or dealer_blackjack == True:
+            print("Game over - blackjack")
             keep_going = False
+        elif player_score > 21 or dealer_score > 21:
+            print("Game over - bust")
+            keep_going = False
+        elif player_score < 21 or dealer_score < 16:
+            hit_or_stay = input(
+                "Would you like to take another card? (y/n): ").lower()
+            if hit_or_stay == "y":
+                card_hit(player_hand)
+            elif hit_or_stay == "n":
+                while dealer_score < 16:
+                    card_hit(dealer_hand)
+                    dealer_score = count_score(dealer_score, dealer_hand)
+                    dealer_blackjack = check_blackjack(
+                        dealer_score, dealer_blackjack)
+                print("Dealer has score over 16")
+                keep_going = False
 
-print("Final game state:")
-print(
-    f"Your final hand: {player_hand} - your final score: {player_score} - blackjack: {player_blackjack}")
-print(
-    f"Dealer's final hand: {dealer_hand} - dealer's final score: {dealer_score} - blackjack: {dealer_blackjack}")
+    print("Final game state:")
+    print(
+        f"Your final hand: {player_hand} - your final score: {player_score} - blackjack: {player_blackjack}")
+    print(
+        f"Dealer's final hand: {dealer_hand} - dealer's final score: {dealer_score} - blackjack: {dealer_blackjack}")
 
-if dealer_blackjack == True:
-    if player_blackjack == True:
-        print("Blackjack - draw - dealer wins")
+    if dealer_blackjack == True:
+        if player_blackjack == True:
+            print("Blackjack - draw - dealer wins")
+        elif player_blackjack == False:
+            print("Blackjack - dealer wins")
+    elif player_blackjack == True:
+        print("Blackjack - player wins")
     elif player_blackjack == False:
-        print("Blackjack - dealer wins")
-elif player_blackjack == True:
-    print("Blackjack - player wins")
-elif player_blackjack == False:
-    if player_score > 21:
-        print("Player busts - dealer wins")
-    elif player_score < 21:
-        if dealer_score > 21:
-            print("Dealer busts - player wins")
-        elif dealer_score < 21:
-            if player_score > dealer_score:
-                print("Higher score - player wins")
-            else:
-                print("Higher score - dealer wins")
+        if player_score > 21:
+            print("Player busts - dealer wins")
+        elif player_score < 21:
+            if dealer_score > 21:
+                print("Dealer busts - player wins")
+            elif dealer_score < 21:
+                if player_score > dealer_score:
+                    print("Higher score - player wins")
+                else:
+                    print("Higher score - dealer wins")
 
+    new_game = input("Would you like to play again? (y/n): ").lower()
+
+    if new_game == "n":
+        start_new_game = False
 # Hint 1: Go to this website and try out the Blackjack game:
 #   https://games.washingtonpost.com/games/blackjack/
 # Then try out the completed Blackjack project here:
