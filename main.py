@@ -72,7 +72,7 @@ def count_score(score, hand):
 # test_hand = [10, 10, 5]
 # test_score = 0
 # player_hand = [11, 10]
-# dealer_hand = [10, 4]
+# dealer_hand = [10, 10]
 
 # print(f"Testing - {count_score(test_score, test_hand)}")
 
@@ -109,9 +109,35 @@ while keep_going == True:
             while dealer_score < 16:
                 card_hit(dealer_hand)
                 dealer_score = count_score(dealer_score, dealer_hand)
+                dealer_blackjack = check_blackjack(
+                    dealer_score, dealer_blackjack)
             print("Dealer has score over 16")
             keep_going = False
 
+print("Final game state:")
+print(
+    f"Your final hand: {player_hand} - your final score: {player_score} - blackjack: {player_blackjack}")
+print(
+    f"Dealer's final hand: {dealer_hand} - dealer's final score: {dealer_score} - blackjack: {dealer_blackjack}")
+
+if dealer_blackjack == True:
+    if player_blackjack == True:
+        print("Blackjack - draw - dealer wins")
+    elif player_blackjack == False:
+        print("Blackjack - dealer wins")
+elif player_blackjack == True:
+    print("Blackjack - player wins")
+elif player_blackjack == False:
+    if player_score > 21:
+        print("Player busts - dealer wins")
+    elif player_score < 21:
+        if dealer_score > 21:
+            print("Dealer busts - player wins")
+        elif dealer_score < 21:
+            if player_score > dealer_score:
+                print("Higher score - player wins")
+            else:
+                print("Higher score - dealer wins")
 
 # Hint 1: Go to this website and try out the Blackjack game:
 #   https://games.washingtonpost.com/games/blackjack/
