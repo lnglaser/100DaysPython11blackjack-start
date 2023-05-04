@@ -21,94 +21,123 @@
 import random
 
 cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+
 player_hand = []
 dealer_hand = []
-# blackjack = 21
+
 player_score = 0
 dealer_score = 0
+
 player_blackjack = None
 dealer_blackjack = None
-# Selects random card from "cards" list and returns it
+
+# Chooses card at random from "cards" list and returns it
 
 
-def deal_card(deck):
+def deal_cards(deck):
     dealt_card = deck[random.randrange(len(deck))]
     return (dealt_card)
 
-# Adds up value of cards in hand and returns the total (replaces 11 with 1 if score is already over 21)
+
+def card_hit(hand):
+    hand.append(deal_cards(cards))
+
+# Takes in a given score and checks if it's equal to 21; returns binary value
 
 
-def scoring(hand, score):
-    score = sum(hand)
-    if score > 21:
-        for card in hand:
-            if card == 11:
-                score -= 10
+def check_blackjack(score, blackjack):
+    if score == 21:
+        blackjack = True
+    else:
+        blackjack = False
+    return (blackjack)
 
+# Adds value of cards in hand to score (ver1)
+
+
+def count_score(score, hand):
+    num_aces = 0
+    score = 0
+    for card in hand:
+        if card == 11:
+            num_aces += 1
+        score += card
+    if score > 21 and num_aces > 1:
+        score -= ((num_aces-1)*10)
+    print(f"count_score - Number of aces: {num_aces}")
+    print(f"count_score - Hand: {hand} - Score: {score}")
     return (score)
 
 
-def card_hit(hand):
-    hand.append(deal_card(cards))
+# test_hand = [10, 10, 5]
+# test_score = 0
+# player_hand = [11, 10]
+# dealer_hand = [10, 10]
 
-# Checks scores against value of 21 to see if score is over, under or exact
+# print(f"Testing - {count_score(test_score, test_hand)}")
 
-
-def check_blackjack(score):
-    blackjack = None
-    if score < 21:
-        blackjack = "under"
-    elif score == 21:
-        blackjack = "yes"
-    else:
-        blackjack = "over"
-    return (blackjack)
-
-
-# Testing hands:
-# player_hand = [11, 11]
-
-# Intial deal - 2 cards each to player and dealer
+# Initial deal
 for card in range(2):
-    player_hand.append(deal_card(cards))
-    dealer_hand.append(deal_card(cards))
+    player_hand.append(deal_cards(cards))
+    dealer_hand.append(deal_cards(cards))
 
-player_score = scoring(player_hand, player_score)
-dealer_score = scoring(dealer_hand, dealer_score)
 
-print(f"Your hand: {player_hand}")
-print(f"Dealer's first card: {dealer_hand[0]}")
-
-# Loop to check if player wants to hit or stay, and for dealer to hit until 21 or bust
+# gameplay loop
 keep_going = True
-while keep_going:
-    if player_score < 21:
-        hit_or_stay = input("Will you take another card? (y/n)").lower()
+while keep_going == True:
+    player_score = count_score(player_score, player_hand)
+    dealer_score = count_score(dealer_score, dealer_hand)
+
+    player_blackjack = check_blackjack(player_score, player_blackjack)
+    dealer_blackjack = check_blackjack(dealer_score, dealer_blackjack)
+
+    print(
+        f"Main loop - Your hand: {player_hand} - Your score: {player_score}\nDealer's first card: {dealer_hand[0]}")
+
+    if player_blackjack == True or dealer_blackjack == True:
+        print("Game over - blackjack")
+        keep_going = False
+    elif player_score > 21 or dealer_score > 21:
+        print("Game over - bust")
+        keep_going = False
+    elif player_score < 21 or dealer_score < 16:
+        hit_or_stay = input(
+            "Would you like to take another card? (y/n): ").lower()
         if hit_or_stay == "y":
             card_hit(player_hand)
-            print(f"Your hand: {player_hand}")
-            player_score = scoring(player_hand, player_score)
-            player_blackjack = check_blackjack(player_score)
-            print(f"Your score is {player_score}")
-            dealer_score = scoring(dealer_hand, dealer_score)
-            print(f"Dealer's first card: {dealer_hand[0]}")
-            dealer_blackjack = check_blackjack(dealer_score)
-            if dealer_blackjack == "under":
-                dealer_hand.append(deal_card(cards))
         elif hit_or_stay == "n":
-            print(f"Your hand: {player_hand}")
-            player_score = scoring(player_hand, player_score)
-            player_blackjack = check_blackjack(player_score)
+            while dealer_score < 16:
+                card_hit(dealer_hand)
+                dealer_score = count_score(dealer_score, dealer_hand)
+                dealer_blackjack = check_blackjack(
+                    dealer_score, dealer_blackjack)
+            print("Dealer has score over 16")
+            keep_going = False
 
-    elif player_score > 21:
-        print(f"Your hand: {player_hand} - your final score: {scoring(player_hand, player_score)}\nDealer's hand: {dealer_hand} - Dealer's final score: {scoring(dealer_hand, dealer_score)}\nYou bust.")
-        keep_going = False
-    else:
-        print(
-            f"Your hand: {player_hand} - your final score: {scoring(player_hand, player_score)}\nDealer's hand: {dealer_hand} - Dealer's final score: {scoring(dealer_hand, dealer_score)}\nYou have blackjack.")
+print("Final game state:")
+print(
+    f"Your final hand: {player_hand} - your final score: {player_score} - blackjack: {player_blackjack}")
+print(
+    f"Dealer's final hand: {dealer_hand} - dealer's final score: {dealer_score} - blackjack: {dealer_blackjack}")
 
-        keep_going = False
-
+if dealer_blackjack == True:
+    if player_blackjack == True:
+        print("Blackjack - draw - dealer wins")
+    elif player_blackjack == False:
+        print("Blackjack - dealer wins")
+elif player_blackjack == True:
+    print("Blackjack - player wins")
+elif player_blackjack == False:
+    if player_score > 21:
+        print("Player busts - dealer wins")
+    elif player_score < 21:
+        if dealer_score > 21:
+            print("Dealer busts - player wins")
+        elif dealer_score < 21:
+            if player_score > dealer_score:
+                print("Higher score - player wins")
+            else:
+                print("Higher score - dealer wins")
 
 # Hint 1: Go to this website and try out the Blackjack game:
 #   https://games.washingtonpost.com/games/blackjack/
