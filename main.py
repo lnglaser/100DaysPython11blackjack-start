@@ -57,6 +57,7 @@ def check_blackjack(score, blackjack):
 
 def count_score(score, hand):
     num_aces = 0
+    score = 0
     for card in hand:
         if card == 11:
             num_aces += 1
