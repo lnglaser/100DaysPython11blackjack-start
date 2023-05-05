@@ -18,7 +18,9 @@
 # The computer is the dealer.
 
 ##################### Hints #####################
+import os
 import random
+from art import logo
 
 cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 
@@ -56,8 +58,8 @@ def count_score(score, hand):
         score += card
     if score > 21 and num_aces > 1:
         score -= ((num_aces-1)*10)
-    print(f"count_score - Number of aces: {num_aces}")
-    print(f"count_score - Hand: {hand} - Score: {score}")
+    # print(f"count_score - Number of aces: {num_aces}")
+    # print(f"count_score - Hand: {hand} - Score: {score}")
     return (score)
 
 
@@ -70,6 +72,8 @@ def count_score(score, hand):
 start_new_game = True
 while start_new_game == True:
 
+    print(logo)
+
     player_hand = []
     dealer_hand = []
 
@@ -80,6 +84,7 @@ while start_new_game == True:
     dealer_blackjack = None
 
     # Initial deal
+
     for card in range(2):
         player_hand.append(deal_cards(cards))
         dealer_hand.append(deal_cards(cards))
@@ -106,8 +111,12 @@ while start_new_game == True:
             hit_or_stay = input(
                 "Would you like to take another card? (y/n): ").lower()
             if hit_or_stay == "y":
+                os.system('clear')
+                print(logo)
                 card_hit(player_hand)
+                player_score = count_score(player_score, player_hand)
             elif hit_or_stay == "n":
+                player_score = count_score(player_score, player_hand)
                 while dealer_score < 16:
                     card_hit(dealer_hand)
                     dealer_score = count_score(dealer_score, dealer_hand)
@@ -144,7 +153,10 @@ while start_new_game == True:
     new_game = input("Would you like to play again? (y/n): ").lower()
 
     if new_game == "n":
+        os.system('clear')
         start_new_game = False
+    else:
+        os.system('clear')
 # Hint 1: Go to this website and try out the Blackjack game:
 #   https://games.washingtonpost.com/games/blackjack/
 # Then try out the completed Blackjack project here:
