@@ -113,12 +113,12 @@ while start_new_game == True:
             if hit_or_stay == "y":
                 os.system('clear')
                 print(logo)
-                card_hit(player_hand)
+                player_hand.append(deal_cards(cards))
                 player_score = count_score(player_score, player_hand)
             elif hit_or_stay == "n":
                 player_score = count_score(player_score, player_hand)
                 while dealer_score < 16:
-                    card_hit(dealer_hand)
+                    dealer_hand.append(deal_cards(cards))
                     dealer_score = count_score(dealer_score, dealer_hand)
                     dealer_blackjack = check_blackjack(
                         dealer_score, dealer_blackjack)
