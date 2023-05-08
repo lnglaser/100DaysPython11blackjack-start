@@ -32,10 +32,6 @@ def deal_cards(deck):
     dealt_card = random.choice(deck)
     return (dealt_card)
 
-
-def card_hit(hand):
-    hand.append(deal_cards(cards))
-
 # Takes in a given score and checks if it's equal to 21; returns binary value
 
 
